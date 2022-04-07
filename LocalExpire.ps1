@@ -1,5 +1,7 @@
 # Need to check a local user and set a password expiration notification?
 # Change [string]$Username = 'LocalUserToCheck' to match your local user which will be checked.
+# Change $Range to the number of days you want to be warned about password expiry.
+# Change $Infomessages to $true if you want information on how many days are left before the Range is hit.
 
 #LocalUser to Check PasswordExpires
 [string]$Username = 'LocalUserToCheck'
