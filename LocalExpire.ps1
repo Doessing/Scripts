@@ -8,7 +8,7 @@
 #Show info messages?
 [bool]$Infomessages = $false
 
-#Check if $Username exists
+#Check if $Username Exists
 try {
     $UserObj = Get-LocalUser -Name $Username | Select-Object * -ErrorAction Stop
 }
@@ -27,14 +27,14 @@ if (!($UserObj.Enabled)) {
 $Expiration = $($UserObj).PasswordExpires
 
 #Today
-$Today = $(get-date)
+$Today = $(Get-Date)
 
-#If PasswordExpires = $null then end script
+#If PasswordExpires is $null then end script
 If ($Expiration) {
 
     #Create BalloonTip
     Add-Type -AssemblyName System.Windows.Forms
-    $BalloonTip = New-Object system.windows.forms.notifyicon
+    $BalloonTip = New-Object System.Windows.Forms.NotifyIcon
     $BalloonTip.visible = $true
     #Balloon Icon
     $BalloonTip.icon = [System.Drawing.Icon]::ExtractAssociatedIcon("C:\Windows\System32\changepk.exe") 
@@ -42,7 +42,7 @@ If ($Expiration) {
     #Create a Timespan from Todays date to Expiration date
     $Timespan = $(New-TimeSpan -Start $Today -End $Expiration).Days
 
-    #If days are less then $Range give warning
+    #If days are less than $Range give warning
     if ($Timespan -lt $Range -and $Timespan -gt -1 ) {
         #Password will expire in $Timespan Days! Time to change password!
         $BalloonTip.ShowBalloonTip(20000, "Password Expiry Warning!", "$Username Password Expiries in $Timespan Days!", [system.windows.forms.tooltipicon]::Warning)
@@ -56,7 +56,7 @@ If ($Expiration) {
 
     #If expired give warning
     elseif ($Timespan -le -1) {
-        #Password will expire in $Timespan Days.
+        #Password expired $Timespan Days ago.
         $BalloonTip.ShowBalloonTip(20000, "Password Expiry Information", "$Username Password Expiried $Timespan Days ago.", [system.windows.forms.tooltipicon]::Error)
     }
 
